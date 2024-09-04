@@ -38,4 +38,58 @@ public class OneToOneTest {
     userRepository.save(user);
     foodRepository.save(food);
   }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("1대1 양방향 테스트 : 외래 키 저장 실패")
+  void test2() {
+
+    Food food = new Food();
+    food.setName("고구마 피자");
+    food.setPrice(30000);
+
+    // 외래 키의 주인이 아닌 User 에서 Food 를 저장
+    User user = new User();
+    user.setName("Robbie");
+    user.setFood(food);
+
+    userRepository.save(user);
+    foodRepository.save(food);
+  }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("1대1 양방향 테스트 : 외래 키 저장 실패 -> 성공")
+  void test3() {
+
+    Food food = new Food();
+    food.setName("고구마 피자");
+    food.setPrice(30000);
+
+    // 외래 키의 주인이 아닌 User 에서 Food 를 저장하기 위해 addFood() 메서드 추가
+    // 외래 키(연관 관계) 설정 food.setUser(this); 추가
+    User user = new User();
+    user.setName("Robbie");
+    user.addFood(food);
+
+    userRepository.save(user);
+    foodRepository.save(food);
+  }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("1대1 양방향 테스트")
+  void test4() {
+
+    User user = new User();
+    user.setName("Robbert");
+
+    Food food = new Food();
+    food.setName("고구마 피자");
+    food.setPrice(30000);
+    food.setUser(user); // 외래 키(연관 관계) 설정
+
+    userRepository.save(user);
+    foodRepository.save(food);
+  }
 }
