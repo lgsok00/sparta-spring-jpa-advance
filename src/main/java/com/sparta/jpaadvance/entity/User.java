@@ -27,8 +27,4 @@ public class User {
 
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "food_id", insertable = false, updatable = false)  // 1 대 N 관계에서는 양방향을 지원하지 않는다.
-  private Food food;                                                    // 억지로 표현할 수는 있다. (권장 X)
-
 }
