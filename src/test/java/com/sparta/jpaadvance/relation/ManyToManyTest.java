@@ -44,4 +44,30 @@ public class ManyToManyTest {
 
     // 자동으로 중간 테이블 orders 가 CREATE 되고, INSERT 됨을 확인할 수 있다..
   }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("N대M 양방향 테스트 : 외래 키 저장 실패")
+  void test2() {
+
+    Food food = new Food();
+    food.setName("후라이드 치킨");
+    food.setPrice(15000);
+
+    Food food2 = new Food();
+    food.setName("양념 치킨");
+    food2.setPrice(20000);
+
+    // 외래 키의 주인이 아닌 User 에서 Food 를 저장
+    User user = new User();
+    user.setName("Robbie");
+    user.getFoodList().add(food);
+    user.getFoodList().add(food2);
+
+    userRepository.save(user);
+    foodRepository.save(food);
+    foodRepository.save(food2);
+
+    // orders 테이블에 food_id, user_id 값이 들어가 있지 않음...
+  }
 }
