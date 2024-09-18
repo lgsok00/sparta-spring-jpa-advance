@@ -70,4 +70,29 @@ public class ManyToManyTest {
 
     // orders 테이블에 food_id, user_id 값이 들어가 있지 않음...
   }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("N대M 양방향 테스트 : 외래 키 저장 실패 -> 성공")
+  void test3() {
+
+    Food food = new Food();
+    food.setName("후라이드 치킨");
+    food.setPrice(15000);
+
+    Food food2 = new Food();
+    food.setName("양념 치킨");
+    food2.setPrice(20000);
+
+    // 외래 키의 주인이 아닌 User 에서 Food 를 쉽게 저장하기 위해 addFoodList() 메서드 생성
+    // 외래 키(연관 관계) 설정을 위해 Food 에서 userList 를 호출해 User 객체 자신을 add
+    User user = new User();
+    user.setName("Robbie");
+    user.addFoodList(food);
+    user.addFoodList(food2);
+
+    userRepository.save(user);
+    foodRepository.save(food);
+    foodRepository.save(food2);
+  }
 }
