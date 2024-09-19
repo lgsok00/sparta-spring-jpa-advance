@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @SpringBootTest
 public class ManyToManyTest {
@@ -94,5 +96,45 @@ public class ManyToManyTest {
     userRepository.save(user);
     foodRepository.save(food);
     foodRepository.save(food2);
+  }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("N대M 양방향 테스트")
+  void test4() {
+
+    User user = new User();
+    user.setName("Robbie");
+
+    User user2 = new User();
+    user2.setName("Robbert");
+
+    Food food = new Food();
+    food.setName("아보카도 피자");
+    food.setPrice(50000);
+    food.getUserList().add(user);  // 외래 키(연관 관계) 설정
+    food.getUserList().add(user2);  // 외래 키(연관 관계) 설정
+
+    Food food2 = new Food();
+    food2.setName("고구마 피자");
+    food2.setPrice(30000);
+    food2.getUserList().add(user);  // 외래 키(연관 관계) 설정
+
+    userRepository.save(user);
+    userRepository.save(user2);
+    foodRepository.save(food);
+    foodRepository.save(food2);
+
+    // User 를 통해 Food 정보 조회
+    System.out.println("user.getName() = " + user.getName());
+
+    List<Food> foodList = user.getFoodList();
+    for (Food f : foodList) {
+      System.out.println("f.getName() = " + f.getName());
+      System.out.println("f.getPrice() = " + f.getPrice());
+    }
+
+    // 외래 키의 주인이 아닌 User 객체에 Food 정보를 넣어주지 않아도 DB 저장에는 문제 없음
+    // 이처럼 User 를 사용하여 food 정보를 조회할 수 없음
   }
 }
