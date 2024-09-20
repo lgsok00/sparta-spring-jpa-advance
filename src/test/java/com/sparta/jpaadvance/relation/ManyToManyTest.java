@@ -137,4 +137,43 @@ public class ManyToManyTest {
     // 외래 키의 주인이 아닌 User 객체에 Food 정보를 넣어주지 않아도 DB 저장에는 문제 없음
     // 이처럼 User 를 사용하여 food 정보를 조회할 수 없음
   }
+
+  @Test
+  @Rollback(value = false)
+  @DisplayName("N대M 양방향 테스트 : 객체와 양방향의 장점 활용")
+  void test5() {
+
+    User user = new User();
+    user.setName("Robbie");
+
+    User user2 = new User();
+    user2.setName("Robbert");
+
+    // addUserList() 메서드를 생성해 User 정보 추가
+    // 해당 메서드에 객체 활용을 통해 User 객체에 Food 정보를 추가하는 코드 추가
+    Food food = new Food();
+    food.setName("아보카도 피자");
+    food.setPrice(50000);
+    food.addUserList(user);
+    food.addUserList(user2);
+
+    Food food2 = new Food();
+    food2.setName("고구마 피자");
+    food2.setPrice(30000);
+    food2.addUserList(user);
+
+    userRepository.save(user);
+    userRepository.save(user2);
+    foodRepository.save(food);
+    foodRepository.save(food2);
+
+    // User 를 통해 Food 정보 조회
+    System.out.println("user.getName() = " + user.getName());
+
+    List<Food> foodList = user.getFoodList();
+    for (Food f : foodList) {
+      System.out.println("f.getName() = " + f.getName());
+      System.out.println("f.getPrice() = " + f.getPrice());
+    }
+  }
 }
