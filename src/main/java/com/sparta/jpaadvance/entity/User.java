@@ -24,6 +24,6 @@ public class User {
 
   private String name;
 
-  @OneToMany(mappedBy = "user")
-  private List<Order> orderList = new ArrayList<>();
+  @OneToMany(mappedBy = "user") // 외래키의 주인(User)
+  private List<Food> foodList = new ArrayList<>();
 }

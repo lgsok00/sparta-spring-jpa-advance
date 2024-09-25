@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -26,6 +28,8 @@ public class Food {  // 외래키의 주인
 
   private double price;
 
-  @OneToMany(mappedBy = "food")
-  private List<Order> orderList = new ArrayList<>();
+  // User 테이블과 다대일 관계
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 }
