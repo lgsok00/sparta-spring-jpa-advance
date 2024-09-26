@@ -4,6 +4,7 @@ import com.sparta.jpaadvance.entity.Food;
 import com.sparta.jpaadvance.entity.User;
 import com.sparta.jpaadvance.repository.FoodRepository;
 import com.sparta.jpaadvance.repository.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -73,5 +74,15 @@ public class FetchTypeTest {
     foodRepository.saveAll(foodList);
   }
 
+  @Test
+  @DisplayName("아보카도 피자 조회")  // 즉시 로딩
+  void test1() {
+    Food food = foodRepository.findById(2L).orElseThrow(NullPointerException::new);
 
+    System.out.println("food.getName() = " + food.getName());
+    System.out.println("food.getPrice() = " + food.getPrice());
+
+    System.out.println("아보카도 피자를 주문한 회원 정보 조회");
+    System.out.println("food.getUser().getName() = " + food.getUser().getName());
+  }
 }
