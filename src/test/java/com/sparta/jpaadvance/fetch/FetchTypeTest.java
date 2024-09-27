@@ -85,4 +85,17 @@ public class FetchTypeTest {
     System.out.println("아보카도 피자를 주문한 회원 정보 조회");
     System.out.println("food.getUser().getName() = " + food.getUser().getName());
   }
+
+  @Test
+  @Transactional
+  @DisplayName("Robbie 고객 조회")
+  void test2() {
+    User user = userRepository.findByName("Robbie");
+    System.out.println("user.getName() = " + user.getName());
+
+    System.out.println("Robbie가 주문한 음식 조회");
+    for (Food food : user.getFoodList()) {
+      System.out.println("food.getName() = " + food.getName());
+    }
+  }
 }
