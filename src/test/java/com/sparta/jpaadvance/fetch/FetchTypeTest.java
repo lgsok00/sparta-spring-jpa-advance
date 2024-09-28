@@ -75,6 +75,7 @@ public class FetchTypeTest {
   }
 
   @Test
+  @Transactional
   @DisplayName("아보카도 피자 조회")  // 즉시 로딩
   void test1() {
     Food food = foodRepository.findById(2L).orElseThrow(NullPointerException::new);
