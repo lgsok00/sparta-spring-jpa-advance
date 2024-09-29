@@ -26,4 +26,9 @@ public class User {
 
   @OneToMany(mappedBy = "user") // 외래키의 주인(User)
   private List<Food> foodList = new ArrayList<>();
+
+  public void addFoodList(Food food) {
+    this.foodList.add(food);
+    food.setUser(this); // 외래 키(연관 관계) 설정
+  }
 }
