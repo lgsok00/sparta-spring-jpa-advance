@@ -75,7 +75,6 @@ public class FetchTypeTest {
   }
 
   @Test
-  @Transactional
   @DisplayName("아보카도 피자 조회")  // 즉시 로딩
   void test1() {
     Food food = foodRepository.findById(2L).orElseThrow(NullPointerException::new);
@@ -94,7 +93,19 @@ public class FetchTypeTest {
     User user = userRepository.findByName("Robbie");
     System.out.println("user.getName() = " + user.getName());
 
-    System.out.println("Robbie가 주문한 음식 조회");
+    System.out.println("Robbie가 주문한 음식 이름 조회");
+    for (Food food : user.getFoodList()) {
+      System.out.println("food.getName() = " + food.getName());
+    }
+  }
+
+  @Test
+  @DisplayName("Roobie 고객 조회 실패")
+  void test3() {
+    User user = userRepository.findByName("Robbie");
+    System.out.println("user.getName() = " + user.getName());
+
+    System.out.println("Robbie가 주만한 음식 이름 조회");
     for (Food food : user.getFoodList()) {
       System.out.println("food.getName() = " + food.getName());
     }

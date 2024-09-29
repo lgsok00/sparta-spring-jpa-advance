@@ -1,7 +1,6 @@
 package com.sparta.jpaadvance.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +25,7 @@ public class Food {  // 외래키의 주인
   private double price;
 
   // User 테이블과 다대일 관계
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 }
