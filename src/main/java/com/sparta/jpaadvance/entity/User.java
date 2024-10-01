@@ -1,5 +1,6 @@
 package com.sparta.jpaadvance.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class User {
 
   private String name;
 
-  @OneToMany(mappedBy = "user") // 외래키의 주인(User)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)  // Food 엔티티도 자동으로 저장
   private List<Food> foodList = new ArrayList<>();
 
   public void addFoodList(Food food) {
