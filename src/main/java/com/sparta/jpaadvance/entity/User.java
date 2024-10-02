@@ -25,7 +25,7 @@ public class User {
 
   private String name;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)  // Food 엔티티도 자동으로 저장
+  @OneToMany(mappedBy = "user")
   private List<Food> foodList = new ArrayList<>();
 
   public void addFoodList(Food food) {

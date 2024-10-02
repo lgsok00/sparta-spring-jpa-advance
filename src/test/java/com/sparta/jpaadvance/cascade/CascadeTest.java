@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class CascadeTest {
@@ -66,5 +68,26 @@ public class CascadeTest {
     user.addFoodList(food2);
 
     userRepository.save(user);
+  }
+
+  @Test
+  @Transactional  // 지연 로딩 시 필요
+  @Rollback(value = false)
+  @DisplayName("Robbie 탈퇴")
+  void test3() {
+    // 고객 Robbie를 조회합니다.
+    User user = userRepository.findByName("Robbie");
+    System.out.println("user.getName() = " + user.getName());
+
+    // Robbie가 주문한 음식 조회
+    for (Food food : user.getFoodList()) {
+      System.out.println("food.getName() = " + food.getName());
+    }
+
+    // 주문한 음식 데이터 삭제
+    foodRepository.deleteAll(user.getFoodList());
+
+    // Robbie 탈퇴
+    userRepository.delete(user);
   }
 }
