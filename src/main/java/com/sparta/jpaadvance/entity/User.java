@@ -25,7 +25,7 @@ public class User {
 
   private String name;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
   private List<Food> foodList = new ArrayList<>();
 
   public void addFoodList(Food food) {

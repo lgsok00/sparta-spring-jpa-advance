@@ -90,4 +90,22 @@ public class CascadeTest {
     // Robbie 탈퇴
     userRepository.delete(user);
   }
+
+  @Test
+  @Transactional
+  @Rollback(value = false)
+  @DisplayName("영속성 전이 삭제")
+  void test4() {
+    // 고객 Robbie를 조회합니다.
+    User user = userRepository.findByName("Robbie");
+    System.out.println("user.getName() = " + user.getName());
+
+    // Robbie가 주문한 음식 조회
+    for (Food food : user.getFoodList()) {
+      System.out.println("food.getName() = " + food.getName());
+    }
+
+    // Robbie 탈퇴
+    userRepository.delete(user);
+  }
 }
